@@ -1,0 +1,1 @@
+# GPTNews-template
