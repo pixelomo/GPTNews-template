@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+    html{overflow: auto;}
+    .article-detail-container {
+        padding: 20px 40px;
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    .article-header {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    .article-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .article-date {
+        font-size: 14px;
+        color: #888;
+    }
+
+    .article-content {
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+</style>
+
+<div class="article-detail-container">
+    <div class="article-header">
+        {% if language == "japanese" %}
+            <div class="article-title">{{ article.title_translated }}</div>
+        {% else %}
+            <div class="article-title">{{ getattr(article, 'title_' + language) }}</div>
+        {% endif %}
+        <div class="article-date">{{ published_article.publication_date.strftime('%B %d, %Y') }}</div>
+    </div>
+
+    <div class="article-content">
+        {% if language == "japanese" %}
+            {{ article.content_translated|safe }}
+        {% else %}
+            {{ getattr(article, 'text_' + language)|safe }}
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

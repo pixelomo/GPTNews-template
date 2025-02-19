@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- CSS styles to create a grid view for news articles -->
+<style>
+    html{overflow: auto;}
+    .news-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    .article-container{
+        padding: 8px 20px;
+    }
+
+    .article-card {
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        transition: transform 0.2s;
+        overflow: hidden;
+    }
+
+    /* .article-card:hover {
+        transform: scale(1.03);
+    } */
+
+    .article-image {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+
+    .article-content {
+        padding: 15px;
+    }
+
+    .article-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .article-date {
+        font-size: 12px;
+        color: #888;
+    }
+
+    .article-link {
+        text-decoration: none;
+    }
+
+    .article-link:hover {
+        text-decoration: underline;
+    }
+    h1{
+        background: #273137;
+        padding: 12px;
+    }
+    h1 img {
+        width: 320px;
+    }
+    h2{ padding: 0 20px;}
+</style>
+<h1><img src= {{ url_for('static', filename = '/images/logo.webp') }} alt="logo" border="0">
+</h1>
+<div class="articles-container">
+    <h2>Latest News</h2>
+    {% for published_article in articles %}
+        <div class="article-card">
+            <div class="article-content">
+                <a href="/news/{{ language.lower() }}/{{ published_article.article.id }}" class="article-link">
+                    <div class="article-title">
+                        {% if language == 'Japanese' %}
+                            {{ published_article.article.title_translated }}
+                        {% elif language %}
+                            {{ getattr(published_article.article, 'title_' + language.lower(), '') }}
+                        {% else %}
+                            {{ published_article.article.title }}
+                        {% endif %}
+                    </div>
+                </a>
+                <div class="article-date">{{ published_article.publication_date.strftime('%B %d, %Y') }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

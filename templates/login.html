@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    .login-form {
+        background-color: #ffffff;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        box-sizing: border-box;
+        margin: 2em auto;
+    }
+
+    .login-form div {
+        margin-bottom: 1.2em;
+    }
+
+    .login-form label {
+        display: block;
+        margin-bottom: 0.5em;
+        font-weight: 600;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"],
+    .login-form input[type="submit"] {
+        width: 100%;
+        padding: 0.8em;
+        box-sizing: border-box; /* this will make sure padding is included within the width */
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+
+    .login-form input[type="submit"] {
+        background-color: #3498db;
+        color: #ffffff;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        font-size: 1em;
+        transition: background-color 0.3s;
+    }
+
+    .login-form input[type="submit"]:hover {
+        background-color: #2980b9;
+    }
+</style>
+<form class="login-form" method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.username.label }} {{ form.username() }}
+    </div>
+    <div>
+        {{ form.password.label }} {{ form.password() }}
+    </div>
+    <div>
+        {{ form.submit(value="Login") }}
+    </div>
+</form>
+{% endblock %}

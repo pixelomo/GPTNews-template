@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+  #converter-container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    #numberInput {
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .calculator {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px 8px 0 0;
+        padding: 6px 6px 0;
+        z-index: 9999;
+        /* display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly; */
+        width: 43%;
+        text-align: right;
+        margin-left: 16.8%;
+    }
+
+    .calculator .close-button {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    .calculator.minimized {
+        height: 40px;
+        overflow: hidden;
+    }
+
+    .calculator.minimized .close-button {
+        background-color: #008CBA;  /* Change to desired color for the show button */
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .calculator * {
+        margin-bottom: 8px;
+    }
+
+    .figure-item {
+      display: inline-block;
+      padding-right: 10px;
+    }
+
+    .calculator button {
+      background-color: #0e6dfd;
+      color: white;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button.calculator:hover {
+        background-color: #005f5f;
+    }
+
+    #result {
+      cursor: pointer;
+      font-size: 18px;
+      min-width: 145px;
+      display: inline-block;
+    }
+</style>
+<div class="container">
+    <div id="loading" style="display: none;">
+      <div id="loading-text"></div>
+      <div class="loading-circle"></div>
+    </div>
+    <div class="row">
+        <div class="sidebar col-md-2">
+            <button class="sidebar-toggle" id="sidebar-toggle"><svg height="800px" viewbox="0 0 24 24" width="800px">
+            <path d="M13.75 22.987l-7.99-9c-.51-.57-.76-1.28-.76-1.99s.25-1.42.74-1.98c.01 0 .01-.01.01-.01l.02-.02 7.98-8.98c1.1-1.24 3.002-1.35 4.242-.25 1.24 1.1 1.35 3 .25 4.23l-6.23 7.01 6.23 7.01c1.1 1.24.99 3.13-.25 4.24-1.24 1.1-3.13.98-4.24-.26z" fill="#ffffff"></path></svg></button>
+            <div class="accordion" id="source-accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="cointelegraph-heading"><button aria-controls="cointelegraph-collapse" aria-expanded="true" class="accordion-button" data-bs-target="#cointelegraph-collapse" data-bs-toggle="collapse" type="button">Cointelegraph</button></h2>
+                    <div aria-labelledby="cointelegraph-heading" class="accordion-collapse collapse show" data-bs-parent="#source-accordion" id="cointelegraph-collapse">
+                        <ul class="list-group" id="cointelegraph-article-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-12">
+            <div class="row">
+              <div class="mobile-tabs tabs-container">
+                <button class="tab-button active" data-target="english">Original</button>
+                <button class="tab-button" data-target="japanese">Edit</button>
+              </div>
+              <div class="toolbar">
+                <div class="tabs-container-translation">
+                  <button class="tab-button active" data-target="Japanese">JP</button>
+                  <!-- <button class="tab-button" data-target="Chinese">CN</button> -->
+                  <!-- <button class="tab-button" data-target="Indonesian">ID</button> -->
+                  <!-- <button class="tab-button" data-target="Korean">KR</button> -->
+                </div>
+                <a id="original-link" class="btn btn-primary" target="_blank">LINK</a>
+                <!-- State when an article is selected -->
+                <div id="article-actions" style="display:none;">
+                  <!-- <button class="btn btn-primary" id="toggleEditButton">Show Edit</button> -->
+                  <button class="btn btn-primary" id="publish-button">Publish</button>
+                  <button class="btn btn-primary" id="unpublish-button">Unpublish</button>
+                  <button class="btn btn-primary" id="save-draft-button">Save Draft</button>
+                  <p id="article-status"></p>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12 original scroll-container tab" id="english">
+                <!-- State when no article is selected -->
+                <div id="no-article-message">
+                  <p>Please select an article.</p>
+                </div>
+
+                <h3 id="original-title" class=""></h3>
+                <div id="original-html"></div>
+              </div>
+              <div class="col-md-6 col-12 scroll-container tab" id="japanese">
+                <textarea id="translation-editor" class="scroll-container"></textarea>
+              </div>
+              <div class="calculator" id="calculator">
+                <div id="calculator-figures"></div>
+                <label for="numberInput">ドルを入れる</label>
+                <input type="text" id="numberInput" placeholder="$">
+                <button onclick="convertNumber()">Convert</button>
+                <div id="result" onclick="copyResult()"></div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
