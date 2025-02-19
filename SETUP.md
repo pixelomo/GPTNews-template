@@ -1,4 +1,4 @@
-To set up your cloned Flask app with Heroku, PostgreSQL, and Alembic, you'll follow these steps. Once the app is already deployed, and PostgreSQL is set up, focus on the Alembic migration and the security aspects.
+To set up your cloned Flask app with Heroku, PostgreSQL, and Alembic, you'll follow these steps. Once the app is deployed on heroku, and PostgreSQL is set up, focus on the Alembic migration and the security aspects.
 
 **Init Project:**
 - New Github repo cloned locally
